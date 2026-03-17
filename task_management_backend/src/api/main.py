@@ -105,6 +105,20 @@ def signup(payload: SignUpRequest, conn=Depends(get_conn)):
 
 
 @app.post(
+    "/auth/register",
+    tags=["Auth"],
+    summary="Create a new user (alias)",
+    description="Alias for POST /auth/signup for compatibility with some clients.",
+    response_model=UserResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def register(payload: SignUpRequest, conn=Depends(get_conn)):
+    # PUBLIC_INTERFACE
+    """Alias for `signup` to support clients that call /auth/register."""
+    return signup(payload=payload, conn=conn)
+
+
+@app.post(
     "/auth/login",
     tags=["Auth"],
     summary="Login",
